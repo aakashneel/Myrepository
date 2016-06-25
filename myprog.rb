@@ -1,4 +1,5 @@
-print "Hello dinosaur\n"
+print "Hello world\n"
+
 print "Enter a number:"
 one = gets.to_i
 print "Enter another number:"
