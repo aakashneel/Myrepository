@@ -1,3 +1,10 @@
+Solutions are from STACKOVERFLOW.COM
+
+
+
+
+Problem: 1
+
 Pushing to Git returning Error Code 403 fatal: HTTP request failed:
 
 Solution:
@@ -13,4 +20,100 @@ So you need to change your repo config on your PC to ssh way:
     find url=entry under section [remote "origin"]
     change it from url=https://MichaelDrogalis@github.com/derekerdmann/lunch_call.git to url=ssh://git@github.com/derekerdmann/lunch_call.git. that is, change all the texts before @ symbol to ssh://git
     Save config file and quit. now you could use git push origin master to sync your repo on GitHub
+
+
+
+
+Problem: 2
+
+Git - Permission denied (publickey)
+
+
+1. First start by setting up your own public/private key pair set. This can
+use either DSA or RSA, so basically any key you setup will work. On most
+systems you can use ssh-keygen.
+
+    First you'll want to cd into your .ssh directory. Open up the terminal and
+run:
+
+        cd ~/.ssh && ssh-keygen
+
+
+
+2. Copy the SSH key to your clipboard
+
+ When copying your key, don't add any newlines or
+whitespace.
+
+$ clip < ~/.ssh/id_rsa.pub
+# Copies the contents of the id_rsa.pub file to your clipboard
+
+Tip: If clip isn't working, you can locate the hidden .ssh folder, open the
+file in your favorite text editor, and copy it to your clipboard.
+
+
+https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
+
+
+
+3.
+Finally setup your .gitconfig.
+
+    git config --global user.name "bob"
+    git config --global user.email bob@... (don't forget to restart your
+command line to make sure the config is reloaded)
+
+
+
+
+Problem: 3
+
+git error: failed to push some refs to:
+
+
+Solution:
+	
+
+
+
+git pull --rebase
+git push
+
+The full syntax is:
+
+git pull --rebase origin master
+git push origin master
+
+That way, you would replay (the --rebase part) your local commits on top of
+the newly updated origin/master (or origin/yourBranch: git pull origin
+yourBranch).
+
+See a more complete example in the chapter 6 Pull with rebase of the Git
+Pocket Book.
+
+I would recommend a:
+
+git push -u origin master
+
+That would establish a tracking relationship between your local master branch
+and its upstream branch.
+After that, any future push for that branch can be done with a simple:
+
+git push
+
+See "Why do I need to explicitly push a new branch?".
+
+Since the OP already reset and redone its commit on top of origin/master:
+
+git reset --mixed origin/master
+git add .
+git commit -m "This is a new commit for what I originally planned to be
+amended"
+git push origin master
+
+There is no need to pull --rebase.
+
+Note: git reset --mixed origin/master can also be written git reset
+origin/master, since the --mixed option is the default one when using git
+reset.
 
